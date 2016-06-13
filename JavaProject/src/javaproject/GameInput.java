@@ -8,15 +8,18 @@ package javaproject;
 import org.lwjgl.input.*;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.event.KeyEvent;
 
 /**
  *
  * @author Arttu
  */
 public class GameInput {
-     
-    public boolean[] buttonCheck(Button[] buttons)
+    
+    Button test = new Button(30, 30, 140, 140, 1, 1, 1);
+    
+    Button[] buttons = {test};
+    
+    public boolean[] buttonCheck()
     {
         boolean[] active = new boolean[buttons.length];
         
@@ -27,14 +30,20 @@ public class GameInput {
         return active;
     }
     
-    public void pollInput()
+    public boolean[] pollInput()
     {
+        boolean[] input = new boolean[10];
+        
         int x = Mouse.getX();
         int y = Mouse.getY();
         
-        if(Mouse.isButtonDown(0))
+        while (Mouse.next())
         {
-            System.out.println("Mouse down __ X: " + x + " Y: " + y);
+            if(Mouse.isButtonDown(0))
+            {
+                System.out.println("Mouse right down __ X: " + x + " Y: " + y);
+                input[0] = true;
+            }
         }
         
         while (Keyboard.next())
@@ -44,6 +53,17 @@ public class GameInput {
                 if(Keyboard.getEventKey() == Keyboard.KEY_A) 
                 {
                     System.out.println("A pressed!!!");
+                    input[1] = true;
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_DOWN)
+                {
+                    System.out.println("Down key pressed!!!");
+                    input[2] = true;
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_UP)
+                {
+                    System.out.println("Up key pressed!!!");
+                    input[3] = true;
                 }
                 // more keys
             }
@@ -53,9 +73,17 @@ public class GameInput {
                 {
                     System.out.println("A released!!!");
                 }
+                if(Keyboard.getEventKey() == Keyboard.KEY_DOWN)
+                {
+                    System.out.println("Down key released!!!");
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_UP)
+                {
+                    System.out.println("Up key released!!!");
+                }
                 // more keys
             }
         }
-        
+        return input;
     }
 }

@@ -25,6 +25,12 @@ public class GameDisplay {
     int width = 900;
     int height = 600;
     
+    Globals globals = new Globals();
+    
+    GameInput gameinput = new GameInput();
+    boolean running = false;
+    
+    
     public void create()
     {
         try {
@@ -45,17 +51,39 @@ public class GameDisplay {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
     }
     
-    public void update(int delta)
+    public void logic_update(boolean[] jobs)
+    {
+        if(jobs[0])
+        {
+            if(running)
+                running = false;
+            else
+                running = true;
+        }
+        
+        if(jobs[1])
+        {
+            
+        }
+        // and so on
+    }
+    
+    public void display_update(int delta)
     {
         // render here
-        
         // Clear the screen and depth buffer
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         
-        Quad quad = new Quad(5, 5, 100, 100, 1, 0.9f, 0.9f);
+        Quad quad = new Quad(30, 30, 100, 100, 1, 1, 1);
         quad.draw();
-
-        System.out.println(delta);
+        
+        for(Button butt : gameinput.buttons)
+        {
+            butt.draw();
+        }
+        
+        if(running)
+            two_body();
         
         Display.update();
         Display.sync(60); // max fps to 60
@@ -64,6 +92,14 @@ public class GameDisplay {
     public void destroy()
     {
         Display.destroy();
+    }
+    
+    public void two_body()
+    {
+        Planet earth = new Planet(globals.SolarMass * 3E-6, 0, 0);
+        Planet moon = new Planet(globals.SolarMass * 3.7E-8, 0, globals.AstronomicalUnit * 0.002653);
+        
+        Planet[] system = {earth, moon};
     }
     
 }

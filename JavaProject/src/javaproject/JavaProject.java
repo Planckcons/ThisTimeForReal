@@ -21,9 +21,7 @@ public class JavaProject {
         GameDisplay gamedisplay = new GameDisplay();
         GameInput gameinput = new GameInput();
         GameTime gametime = new GameTime();
-        GameLogic gamelogic = new GameLogic();
-        
-        boolean[] logicJobs = new boolean[2];
+        Globals globals = new Globals();
         
         gametime.getDelta();
         gametime.lastfps = gametime.getTime();
@@ -31,16 +29,23 @@ public class JavaProject {
         gamedisplay.create();
         gamedisplay.init();
         
+        
+        boolean[] input;
+        
         while(!Display.isCloseRequested())
         {
             int delta = gametime.getDelta();
             
-            gameinput.pollInput();
+            boolean[] pollinput = gameinput.pollInput();
+            boolean[] buttoninput = {};
+            if(pollinput[0])
+            {
+                buttoninput = gameinput.buttonCheck();
+            }
+            input = globals.concat(pollinput, buttoninput);
             
-            
-            gamelogic.update(logicJobs);
-            
-            gamedisplay.update(delta);
+            gamedisplay.logic_update(input);
+            gamedisplay.display_update(delta);
             gametime.updateFPS();
         }
         

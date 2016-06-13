@@ -9,18 +9,12 @@ import org.lwjgl.input.Mouse;
 
 /**
  *
- * @author Arttu
+ * @author ADM
  */
-public class Button {
-
-    int width, height, pos_x, pos_y;
-
-    public Button(int width, int height, int pos_x, int pos_y) {
+public class Button extends Quad {
     
-        this.width = width;
-        this.height = height;
-        this.pos_x = pos_x;
-        this.pos_y = pos_y;
+    public Button(int width, int height, int pos_x, int pos_y, float r, float g, float b) {
+        super(width, height, pos_x, pos_y, r, g, b);
     }
     
     public boolean Action()
@@ -29,8 +23,10 @@ public class Button {
         {
             if(Mouse.isButtonDown(0))
             {
+                System.out.println("Button pressed!!!");
                 return true;
             }
+            
         } 
         return false;
     }
